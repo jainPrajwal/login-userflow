@@ -22,7 +22,7 @@ function App() {
             <h1>Eden</h1>
           </div>
         </header>
-        <section>
+        <section className='w-100'>
           <div className='wrapper-stepbar'>
             <Stepbar />
           </div>

@@ -2,20 +2,18 @@ import { useState } from "react";
 import { useData } from "../hooks/useData";
 
 export const Welcome = () => {
-    const { appData: { validations: { isFormValid }, userData: { fullName, displayName } }, setAppData } = useData();
+    const { appData: { userData: { displayName, fullName } }, setAppData } = useData();
 
 
     const [formState, setFormState] = useState({
         fullName: {
             isTouched: false,
-            isDirty: false,
             errorMessage: ``,
             isValid: false,
 
         },
         displayName: {
             isTouched: false,
-            isDirty: false,
             errorMessage: ``,
             isValid: false,
         }
@@ -36,6 +34,9 @@ export const Welcome = () => {
                     </label>
                     <input type="text"
                         value={fullName || ``}
+                        style={{
+                            outline: formState.fullName.errorMessage ? `1px solid var(--flow-error)` : ``
+                        }}
 
                         onFocus={() => {
 
@@ -86,7 +87,7 @@ export const Welcome = () => {
                                             ...prevState,
                                             validations: {
                                                 isFormValid: true,
-                                               
+
                                             }
                                         }
                                     })
@@ -137,6 +138,9 @@ export const Welcome = () => {
 
 
                     <input type="text"
+                        style={{
+                            outline: formState.displayName.errorMessage ? `1px solid var(--flow-error)` : ``
+                        }}
                         value={displayName || ``}
 
                         onFocus={() => {
@@ -188,7 +192,7 @@ export const Welcome = () => {
                                             ...prevState,
                                             validations: {
                                                 isFormValid: true,
-                                               
+
                                             }
                                         }
                                     })

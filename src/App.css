@@ -44,6 +44,10 @@ img {
   justify-content: space-between;
 }
 
+.jc-space-around {
+  justify-content: space-around;
+}
+
 .ai-center {
   align-items: center;
 }
@@ -92,9 +96,9 @@ img {
   caret-color: var(--flow-primary);
 }
 
+
 .input:focus,
 .input:active {
-  
   outline: 1px solid var(--flow-primary);
 }
 
@@ -151,11 +155,13 @@ img {
   cursor: pointer;
   font-size: 1rem;
   border-radius: 4px;
+  font-size: 1.2rem;
 }
 
 
 
-.btn:focus, .btn:focus-visible {
+.btn:focus,
+.btn:focus-visible {
   border: 1px solid var(--flow-primary);
   outline: 2px solid var(--flow-primary);
 }
@@ -202,4 +208,8 @@ img {
 
 .text-error {
   color: var(--flow-error);
+}
+
+input:invalid {
+  border: 1px solid var(--flow-error);
 }
