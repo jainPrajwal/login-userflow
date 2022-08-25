@@ -1,25 +1,224 @@
 import { useState } from "react";
+import { AppData } from "../constants/data.types";
 import { useData } from "../hooks/useData";
 import { useFormCheck } from "../hooks/useFormCheck";
 
+const handlersFactory = {
+  onFocusHandler: ({ setFormState, field }: {
+    setFormState: React.Dispatch<React.SetStateAction<{
+      name: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+      url: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+    }>>
+    field: `name` | `url`
+  }) => {
+
+
+    setFormState(prevState => ({
+      ...prevState, [field]: {
+        ...prevState[field],
+        isTouched: true,
+
+      }
+    }))
+
+
+
+  }
+  ,
+  onChangeHandler: ({ e, setAppData, field }: {
+    e: React.ChangeEvent<HTMLInputElement>,
+    setAppData: React.Dispatch<React.SetStateAction<AppData>>
+
+    field: `name` | `url`
+  }) => {
+    setAppData(prevState => {
+      return {
+        ...prevState,
+        userData: {
+          ...prevState.userData,
+          workspace: {
+            ...prevState.userData.workspace,
+            [field]: e.target.value
+          }
+        }
+      }
+    })
+
+  },
+
+
+  onBlurHandler: ({ e, setAppData, setFormState, field }: {
+    e: React.FocusEvent<HTMLInputElement, Element>,
+    setAppData: React.Dispatch<React.SetStateAction<AppData>>
+    setFormState: React.Dispatch<React.SetStateAction<{
+      name: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+      url: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+    }>>
+    field: `name` | `url`
+  }) => {
+
+    if (e.target.value.length <= 0) {
+      setFormState(prevState => {
+        return {
+          ...prevState,
+          [field]: {
+            ...prevState[field],
+            isValid: false,
+            errorMessage: `Name cannot be blank`
+          }
+        }
+      })
+    } else {
+
+      if (e.target.value.match(/^[a-zA-Z_]+$/)) {
+        setAppData(prevState => {
+          return {
+            ...prevState,
+            validations: {
+              isFormValid: true,
+
+            }
+          }
+        })
+
+        setFormState(prevState => {
+          return {
+            ...prevState,
+            [field]: {
+              ...prevState[field],
+              isValid: true,
+              errorMessage: ``
+            }
+          }
+        })
+      } else {
+        setFormState(prevState => {
+          return {
+            ...prevState,
+            [field]: {
+              ...prevState[field],
+              isValid: false,
+              errorMessage: `Name cannot contain anything except letters`
+            }
+          }
+        })
+      }
+    }
+
+
+
+
+  }
+  ,
+  onBlurOptionsHandler: ({ e, setAppData, setFormState, field }: {
+    e: React.FocusEvent<HTMLInputElement, Element>,
+    setAppData: React.Dispatch<React.SetStateAction<AppData>>
+    setFormState: React.Dispatch<React.SetStateAction<{
+      name: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+      url: {
+        isTouched: boolean;
+        errorMessage: string;
+        isValid: boolean;
+      };
+    }>>
+    field: `name` | `url`
+  }) => {
+    setFormState(prevState => {
+      return {
+        ...prevState,
+        url: {
+          ...prevState.url,
+          isValid: false,
+          errorMessage: `Name cannot be blank`
+        }
+      }
+    })
+
+
+    if (e.target.value.match(/^https:\/\/.|http:\/\/./) || e.target.value.length <= 0) {
+      
+      setAppData(prevState => {
+        return {
+          ...prevState,
+          validations: {
+            isFormValid: true,
+          }
+        }
+      })
+
+      setFormState(prevState => {
+        return {
+          ...prevState,
+          url: {
+            ...prevState.url,
+            isValid: true,
+            errorMessage: ``
+          }
+        }
+      })
+    } else {
+      setFormState(prevState => {
+        return {
+          ...prevState,
+          url: {
+            ...prevState.url,
+            isValid: false,
+            errorMessage: `URL should start with https:// or http://`
+          }
+        }
+      })
+      setAppData(prevState => {
+        return {
+          ...prevState,
+          validations: {
+            isFormValid: false,
+          }
+        }
+      })
+    }
+  }
+}
+const initialFormState = {
+  name: {
+    isTouched: false,
+    errorMessage: ``,
+    isValid: false,
+
+  },
+  url: {
+    isTouched: false,
+    errorMessage: ``,
+    isValid: true,
+  }
+}
 export const Workspace = () => {
   const { appData: { userData: { workspace: { name, url } } }, setAppData } = useData();
+
+
+  const [formState, setFormState] = useState(initialFormState);
+
+  const { onFocusHandler, onChangeHandler, onBlurHandler, onBlurOptionsHandler } = handlersFactory;
   useFormCheck();
-
-  const [formState, setFormState] = useState({
-    name: {
-      isTouched: false,
-      errorMessage: ``,
-      isValid: false,
-
-    },
-    url: {
-      isTouched: false,
-      errorMessage: ``,
-      isValid: true,
-    }
-  })
-
   return <section className='d-flex f-direction-col ai-center w-100'>
 
 
@@ -38,89 +237,20 @@ export const Workspace = () => {
               outline: formState.name.errorMessage ? `1px solid var(--flow-error)` : ``
             }}
             onFocus={() => {
-
-
-              setFormState(prevState => ({
-                ...prevState, name: {
-                  ...prevState.name,
-                  isTouched: true,
-
-                }
-              }))
-
-
-
+              onFocusHandler({ setFormState, field: `name` })
             }}
 
             onChange={(e) => {
-              setAppData(prevState => {
-                return {
-                  ...prevState,
-                  userData: {
-                    ...prevState.userData,
-                    workspace: {
-                      ...prevState.userData.workspace,
-                      name: e.target.value
-                    }
-                  }
-                }
-              })
-
+              onChangeHandler({ e, setAppData, field: `name` })
             }}
 
             onBlur={(e) => {
-
-              if (e.target.value.length <= 0) {
-                setFormState(prevState => {
-                  return {
-                    ...prevState,
-                    name: {
-                      ...prevState.name,
-                      isValid: false,
-                      errorMessage: `Name cannot be blank`
-                    }
-                  }
-                })
-              } else {
-
-                if (e.target.value.match(/^[a-zA-Z_]+$/)) {
-                  setAppData(prevState => {
-                    return {
-                      ...prevState,
-                      validations: {
-                        isFormValid: true,
-
-                      }
-                    }
-                  })
-
-                  setFormState(prevState => {
-                    return {
-                      ...prevState,
-                      name: {
-                        ...prevState.name,
-                        isValid: true,
-                        errorMessage: ``
-                      }
-                    }
-                  })
-                } else {
-                  setFormState(prevState => {
-                    return {
-                      ...prevState,
-                      name: {
-                        ...prevState.name,
-                        isValid: false,
-                        errorMessage: `Name cannot contain anything except letters`
-                      }
-                    }
-                  })
-                }
-              }
-
-
-
-
+              onBlurHandler({
+                e,
+                setAppData,
+                setFormState,
+                field: `name`
+              })
             }}
 
             id='workspace-name'
@@ -150,88 +280,22 @@ export const Workspace = () => {
 
 
               onFocus={() => {
-
-
-                setFormState(prevState => ({
-                  ...prevState, url: {
-                    ...prevState.url,
-                    isTouched: true,
-
-                  }
-                }))
-
-
-
+                onFocusHandler({ setFormState, field: `url` })
               }}
 
               onChange={(e) => {
-                setAppData(prevState => {
-                  return {
-                    ...prevState,
-                    userData: {
-                      ...prevState.userData,
-                      workspace: {
-                        ...prevState.userData.workspace,
-                        url: e.target.value
-                      }
-                    }
-                  }
+                onChangeHandler({
+                  e,
+                  setAppData,
+                  field: `url`
                 })
-
               }}
 
               onBlur={(e) => {
-
-
-                setFormState(prevState => {
-                  return {
-                    ...prevState,
-                    url: {
-                      ...prevState.url,
-                      isValid: false,
-                      errorMessage: `Name cannot be blank`
-                    }
-                  }
+                onBlurOptionsHandler({
+                  e, field: `url`, setAppData, setFormState
                 })
-
-
-                if (e.target.value.match(/^https:\/\/.|http:\/\/./) || e.target.value.length <= 0) {
-                  setAppData(prevState => {
-                    return {
-                      ...prevState,
-                      validations: {
-                        isFormValid: true,
-                      }
-                    }
-                  })
-
-                  setFormState(prevState => {
-                    return {
-                      ...prevState,
-                      url: {
-                        ...prevState.url,
-                        isValid: true,
-                        errorMessage: ``
-                      }
-                    }
-                  })
-                } else {
-                  setFormState(prevState => {
-                    return {
-                      ...prevState,
-                      url: {
-                        ...prevState.url,
-                        isValid: false,
-                        errorMessage: `URL should start with https:// or http://`
-                      }
-                    }
-                  })
-                }
               }
-
-
-
-
               }
 
               id='workspace-url'

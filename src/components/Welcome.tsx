@@ -173,6 +173,8 @@ export const Welcome = () => {
                         onChange={(e) => { onChangeHandler({ e, setAppData, field: `fullName` }) }}
 
                         onBlur={(e) => { onBlurHandler({ e, setFormState, setAppData, field: `fullName` }) }}
+
+                        
                         id='workspace-name'
                         className='input p-lg'
                         placeholder='Eden'
@@ -204,7 +206,7 @@ export const Welcome = () => {
 
                         onBlur={(e: React.FocusEvent<HTMLInputElement, Element>) => { onBlurHandler({ e, setFormState, setAppData, field: `displayName` }) }}
 
-                        
+
                         id='workspace-name'
                         className='input p-lg w-100'
                         placeholder='Example'
