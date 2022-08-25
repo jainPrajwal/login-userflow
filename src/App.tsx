@@ -44,7 +44,10 @@ function App() {
                 setAppData(prevState => {
                   return {
                     ...prevState,
-                    currentStep: currentStep + 1
+                    currentStep: currentStep + 1,
+                    validations: {
+                      isFormValid: false
+                    }
                   }
                 })
               }

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "../hooks/useData";
+import { useFormCheck } from "../hooks/useFormCheck";
 
 export const Welcome = () => {
     const { appData: { userData: { displayName, fullName } }, setAppData } = useData();
+
+    useFormCheck();
 
 
     const [formState, setFormState] = useState({

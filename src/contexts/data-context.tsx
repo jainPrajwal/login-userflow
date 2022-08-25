@@ -31,7 +31,7 @@ const DataProvider = ({ children }: { children: any }) => {
         userData: {
             displayName: null,
             fullName: null,
-            setup: null,
+            setup: `myself`,
             workspace: {
                 name: null,
 

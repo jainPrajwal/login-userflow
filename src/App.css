@@ -6,6 +6,9 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%)); 
+  /* to avoid layout shift */
 }
 
 img {
@@ -210,6 +213,20 @@ img {
   color: var(--flow-error);
 }
 
-input:invalid {
-  border: 1px solid var(--flow-error);
+.f-wrap {
+  flex-wrap: wrap;
+}
+
+.d-none {
+  display: none;
+}
+
+@media screen and (max-width: 520px) {
+  .wrapper-stepbar {
+    padding: 1rem;
+  }
+
+  .input-url {
+    display: none;
+  }
 }
