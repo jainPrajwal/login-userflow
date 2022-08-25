@@ -199,3 +199,7 @@ img {
 .border-primary {
   border: 1px solid var(--flow-primary);
 }
+
+.text-error {
+  color: var(--flow-error);
+}

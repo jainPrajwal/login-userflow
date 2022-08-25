@@ -25,8 +25,19 @@ const DataProvider = ({ children }: { children: any }) => {
         currentStep: 1,
         validations: {
             isFormValid: false,
-            message: ``
+          
+          
+        },
+        userData: {
+            displayName: null,
+            fullName: null,
+            setup: null,
+            workspace: {
+                name: null,
+
+            }
         }
+
     })
     return <DataContext.Provider value={{ appData, setAppData }} >{children}</DataContext.Provider>
 }

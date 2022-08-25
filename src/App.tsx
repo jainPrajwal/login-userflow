@@ -10,7 +10,7 @@ import { useData } from './hooks/useData';
 
 
 function App() {
-  const { appData } = useData();
+  const { appData, setAppData } = useData();
   const { currentStep, steps, validations: { isFormValid } } = appData
 
   return (
@@ -26,18 +26,28 @@ function App() {
           <div className='wrapper-stepbar'>
             <Stepbar />
           </div>
+          
 
         </section>
-
+      
         <Step />
 
+       
         <div className='p-md w-80 py-lg'>
           {currentStep !== steps.length ? <button
-            disabled={!isFormValid}
+
             className='btn btn-primary p-lg w-100'
             onClick={() => {
-              console.log(`clicked`)
-
+              if (!isFormValid) {
+                return;
+              } else {
+                setAppData(prevState => {
+                  return {
+                    ...prevState,
+                    currentStep: currentStep + 1
+                  }
+                })
+              }
             }}
           >Create Workspace</button> : <button className='btn btn-primary p-lg w-100'>Launch Eden</button>}
         </div>

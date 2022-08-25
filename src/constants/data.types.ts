@@ -3,6 +3,16 @@ export type AppData = {
   currentStep: number;
   validations: {
     isFormValid: boolean;
-    message: string;
+   
+ 
+  };
+  userData: {
+    fullName: string | null;
+    displayName: string | null;
+    workspace: {
+      name: string | null;
+      url?: string;
+    };
+    setup: `myself` | `team` | null;
   };
 };
