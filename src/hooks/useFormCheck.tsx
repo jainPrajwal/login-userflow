@@ -30,7 +30,7 @@ export const useFormCheck = () => {
                     })
                 }
                 if (workspace.url && workspace.url.match(/^https:\/\/.|http:\/\/./)) {
-                    console.log(`MATCHED`)
+                  
                     setAppData(prevState => {
                         return {
                             ...prevState,

@@ -277,7 +277,7 @@ export const Workspace = () => {
               <div>www.example.com/</div>
             </div>
             <input type="url" name="url"
-              value={url}
+              value={url || ``}
               style={{
                 outline: formState.url.errorMessage ? `1px solid var(--flow-error)` : ``
               }}
