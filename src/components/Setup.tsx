@@ -1,9 +1,26 @@
-import { useState } from "react";
+
+import { AppData, IMAGES_URL } from "../constants/data.types";
 import { useData } from "../hooks/useData";
 import { useFormCheck } from "../hooks/useFormCheck";
 
+const onClickHandler = ({ setAppData, setup = `myself` }: { setAppData: React.Dispatch<React.SetStateAction<AppData>>, setup: `myself` | `team` }) => {
+  setAppData(prevState => {
+    return {
+      ...prevState,
+      userData: {
+        ...prevState.userData,
+        setup
+      },
+      validations: {
+        ...prevState.validations,
+        isFormValid: true
+      }
+    }
+  })
+}
+
 export const Setup = () => {
-  const { appData: { userData, validations: { isFormValid } }, setAppData } = useData();
+  const { appData: { userData }, setAppData } = useData();
   useFormCheck();
 
 
@@ -18,23 +35,14 @@ export const Setup = () => {
           <div
             role={`button`}
             onClick={() => {
-              setAppData(prevState => {
-                return {
-                  ...prevState,
-                  userData: {
-                    ...prevState.userData,
-                    setup: `myself`
-                  },
-                  validations: {
-                    ...prevState.validations,
-                    isFormValid: true
-                  }
-                }
+              onClickHandler({
+                setAppData,
+                setup: `myself`
               })
             }}
             className={`card d-flex f-direction-col p-lg cursor-pointer ${userData.setup === `myself` ? `border-primary` : ``}`}>
             <div className='py-sm'>
-              <img src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1661355693/User_dieqap.jpg" alt="For myself" />
+              <img src={`${IMAGES_URL.MYSELF}`} alt="For myself" />
             </div>
             <div >
               <div className='text-bold py-md'>For myself</div>
@@ -49,23 +57,14 @@ export const Setup = () => {
           <div
             role={`button`}
             onClick={() => {
-              setAppData(prevState => {
-                return {
-                  ...prevState,
-                  userData: {
-                    ...prevState.userData,
-                    setup: `team`
-                  },
-                  validations: {
-                    ...prevState.validations,
-                    isFormValid: true
-                  }
-                }
+              onClickHandler({
+                setAppData,
+                setup: `team`
               })
             }}
             className={`card d-flex f-direction-col p-lg cursor-pointer ${userData.setup === `team` ? `border-primary` : ``}`}>
             <div className='py-sm'>
-              <img src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1661355693/Users_qzn6xb.png" alt="With my team" />
+              <img src={`${IMAGES_URL.TEAM}`} alt="With my team" />
             </div>
             <div >
               <div className='text-bold py-md'>With my team</div>
@@ -78,7 +77,7 @@ export const Setup = () => {
 
 
       </div>
-     
+
     </div>
 
   </section>

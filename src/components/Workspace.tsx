@@ -156,7 +156,7 @@ const handlersFactory = {
 
 
     if (e.target.value.match(/^https:\/\/.|http:\/\/./) || e.target.value.length <= 0) {
-      
+
       setAppData(prevState => {
         return {
           ...prevState,
@@ -198,6 +198,8 @@ const handlersFactory = {
     }
   }
 }
+
+
 const initialFormState = {
   name: {
     isTouched: false,
@@ -211,6 +213,8 @@ const initialFormState = {
     isValid: true,
   }
 }
+
+
 export const Workspace = () => {
   const { appData: { userData: { workspace: { name, url } } }, setAppData } = useData();
 

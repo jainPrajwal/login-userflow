@@ -1,7 +1,9 @@
+import { IMAGES_URL } from "../constants/data.types"
+
 export const Final = () => {
     return <section className='d-flex f-direction-col ai-center w-100'>
         <div className='py-lg'>
-            <img src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1661359217/Success_c3d1nc.png" alt="" width={`80px`} height={`80px`} />
+            <img src={`${IMAGES_URL.SIGNUP_SUCCESSFULL}`} alt="sign up successfull" width={`80px`} height={`80px`} />
 
         </div>
         <div className='d-flex f-direction-col ai-center w-80'>
